@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { catchError, map, Subscription, throwError } from 'rxjs';
+import { catchError, map, Subscription, tap, throwError } from 'rxjs';
 import { AppService, PostData } from './app.service';
 
 @Component({
@@ -23,6 +23,9 @@ export class AppComponent implements OnDestroy {
     this.appService
       .insertData(this.postData)
       .pipe(
+        tap((res) => {
+          console.log('Tap Event', res);
+        }),
         catchError((err) => {
           console.log('I will be logged in analysis', err);
           return throwError(err);
@@ -42,7 +45,7 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getDataSubscription.unsubscribe();
+    // this.getDataSubscription.unsubscribe();
   }
 
   getData() {

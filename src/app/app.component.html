@@ -5,7 +5,8 @@
 <button class="btn btn-primary" (click)="getData()">Fetch Data</button>
 <br />
 <br />
-<button class="btn btn-secondary" (click)="deleteData()">deleteData</button>
 <div *ngFor="let singlePostDataArray of postDataArray">
   {{ singlePostDataArray.name }}
 </div>
+<br />
+<button class="btn btn-secondary" (click)="deleteData()">deleteData</button>
