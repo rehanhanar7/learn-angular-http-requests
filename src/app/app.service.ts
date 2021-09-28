@@ -31,4 +31,13 @@ export class AppService {
       'https://stackblitz-angular-rest-default-rtdb.firebaseio.com/posts.json'
     );
   }
+
+  /**
+   * Delete Data using delete
+   */
+  deleteData() {
+    return this.httpClient.delete(
+      'https://stackblitz-angular-rest-default-rtdb.firebaseio.com/posts.json/'
+    );
+  }
 }

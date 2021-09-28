@@ -20,9 +20,24 @@ export class AppComponent implements OnDestroy {
   postDataArray: PostData[];
 
   insertDataPost() {
-    this.appService.insertData(this.postData).subscribe(
-      (res) => console.log('Response', res),
-      (err) => console.log('Error', err)
+    this.appService
+      .insertData(this.postData)
+      .pipe(
+        catchError((err) => {
+          console.log('I will be logged in analysis', err);
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        (res) => console.log('Response', res),
+        (err) => console.log('Error', err)
+      );
+  }
+
+  deleteData() {
+    this.appService.deleteData().subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
     );
   }
 
@@ -40,10 +55,6 @@ export class AppComponent implements OnDestroy {
             newarray.push({ ...res[key], id: key });
           }
           return newarray;
-        }),
-        catchError((err) => {
-          console.log('I will be logged in analysis', err);
-          return throwError(err);
         })
       )
       .subscribe(
