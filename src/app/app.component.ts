@@ -1,11 +1,60 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { catchError, map, Subscription, throwError } from 'rxjs';
+import { AppService, PostData } from './app.service';
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {}
+export class AppComponent implements OnDestroy {
+  getDataSubscription: Subscription = null;
+
+  constructor(private appService: AppService) {}
+
+  postData: PostData = {
+    name: 'Karthik',
+    desc: 'Karthik is here',
+  };
+
+  postDataArray: PostData[];
+
+  insertDataPost() {
+    this.appService.insertData(this.postData).subscribe(
+      (res) => console.log('Response', res),
+      (err) => console.log('Error', err)
+    );
+  }
+
+  ngOnDestroy() {
+    this.getDataSubscription.unsubscribe();
+  }
+
+  getData() {
+    this.getDataSubscription = this.appService
+      .fetchData()
+      .pipe(
+        map((res) => {
+          let newarray: PostData[] = [];
+          for (let key in res) {
+            newarray.push({ ...res[key], id: key });
+          }
+          return newarray;
+        }),
+        catchError((err) => {
+          console.log('I will be logged in analysis', err);
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        (res) => {
+          console.log('fetched response', res);
+          this.postDataArray = res;
+        },
+        (err) => console.log('fetched error', err)
+      );
+  }
+}
 
 /**
  * What is Rest API ?
