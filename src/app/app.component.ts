@@ -8,8 +8,6 @@ import { AppService, PostData } from './app.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnDestroy {
-  getDataSubscription: Subscription = null;
-
   constructor(private appService: AppService) {}
 
   postData: PostData = {
@@ -49,7 +47,7 @@ export class AppComponent implements OnDestroy {
   }
 
   getData() {
-    this.getDataSubscription = this.appService
+    this.appService
       .fetchData()
       .pipe(
         map((res) => {
