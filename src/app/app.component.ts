@@ -51,6 +51,9 @@ export class AppComponent implements OnDestroy {
       .fetchData()
       .pipe(
         map((res) => {
+          /**
+           * Change Firebase data to be more usable
+           */
           let newarray: PostData[] = [];
           for (let key in res) {
             newarray.push({ ...res[key], id: key });

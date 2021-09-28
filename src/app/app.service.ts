@@ -28,6 +28,9 @@ export class AppService {
    */
   fetchData() {
     return this.httpClient.get<PostData>(this.url, {
+      /**
+       * Setting headers and params
+       */
       headers: new HttpHeaders({
         myname: 'Rehan',
       }),
